@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pathomentor"
+version = "1.0.0"
+description = "PathoMentor: inference-free distillation of a pathology foundation model (UNI2-h) into DeepLabV3+ for breast cancer tissue segmentation"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [{name = "Khaled Metwaly"}, {name = "Eman M. Abd El-Aziz"}, {name = "Aliaa A. A. Youssif"}]
+dependencies = [
+  "tensorflow>=2.16",
+  "numpy",
+  "scipy",
+  "pillow",
+  "matplotlib",
+  "pyyaml",
+]
+
+[project.optional-dependencies]
+teacher = ["torch", "torchvision", "timm>=1.0.3", "huggingface_hub"]
+
+[project.scripts]
+pathomentor-train = "pathomentor.train:main"
+pathomentor-evaluate = "pathomentor.evaluate:main"
+pathomentor-predict = "pathomentor.predict:main"
+pathomentor-compare = "pathomentor.compare:main"
+
+[tool.setuptools]
+packages = ["pathomentor"]

@@ -1,0 +1,5 @@
+comparison,delta_pp_fwiou,ci95_low,ci95_high,wilcoxon_p,n_patients
+gain_256_minus_gain_448,0.63,0.17,1.11,0.005,44
+baseline_448_minus_baseline_256,0.93,0.22,1.58,0.005,44
+pathomentor_256_minus_baseline_448,1.08,0.43,1.85,0.002,44
+pathomentor_256_minus_pathomentor_448,-0.30,-0.84,0.28,0.13,44

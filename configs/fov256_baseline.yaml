@@ -1,0 +1,26 @@
+# Paper configuration: baseline arm at 256 px (0.5 MPP). Override any key on the CLI, e.g. --seed 3
+arm: baseline
+fov: 256
+seed: 0
+data_root: data/bcss_256
+out_dir: runs
+eff_batch: 32
+phys_batch: 4
+epochs: 25
+lr: 1.0e-4
+patience: 8
+rlr_patience: 4
+rlr_factor: 0.7
+min_lr: 1.0e-7
+monitor: val_fwiou
+ce_weight: 0.6
+dice_weight: 0.4
+augment: true
+backbone_weights: imagenet
+teach_grid: 32
+alpha_peak: 0.5
+align_warmup: 0
+align_ramp: 2
+kd_temp: 1.0
+max_hours: 11.0
+deterministic: true

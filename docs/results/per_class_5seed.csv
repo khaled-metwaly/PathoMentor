@@ -1,0 +1,5 @@
+class,n_patients,delta_448,ci95_low_448,ci95_high_448,holm_p_448,robust_448,delta_256,ci95_low_256,ci95_high_256,holm_p_256,robust_256
+tumour,44,1.59,1.19,2.02,2.1e-8,yes,2.29,1.80,2.85,1.5e-11,yes
+stroma,44,1.37,0.90,1.91,3.3e-7,yes,1.86,1.40,2.35,3.9e-9,yes
+inflammatory,37,1.19,0.66,1.75,3.0e-4,yes,1.59,1.08,2.10,6.3e-7,yes
+necrosis,22,1.80,-0.21,3.75,0.039,no,5.17,3.51,7.00,9.5e-7,yes

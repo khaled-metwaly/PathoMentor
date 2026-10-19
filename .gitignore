@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.ipynb_checkpoints/
+# data, caches and outputs
+data/
+runs/
+compare/
+eval/
+predictions/
+teacher/cache*/
+*.h5
+*.keras
+*.npy
+*.pt
+*.zip
+publish_to_github.bat
