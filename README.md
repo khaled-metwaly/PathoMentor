@@ -126,7 +126,8 @@ pip install -e ".[teacher]"      # + PyTorch, timm, huggingface_hub for building
 ```
 
 The teacher uses the gated model [`MahmoodLab/UNI2-h`](https://huggingface.co/MahmoodLab/UNI2-h): request
-access on Hugging Face and provide a token through `--hf-token` or the `HF_TOKEN` environment variable.
+access on Hugging Face and provide a token through `--hf-token`, the `HF_TOKEN` environment variable, or (on Kaggle)
+a secret named `HF_TOKEN`. Never paste the token into code or notebooks.
 Building the teacher is only needed for the `mentor` arm.
 
 ## Data preparation

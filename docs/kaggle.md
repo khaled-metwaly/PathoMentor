@@ -20,6 +20,7 @@ Use one notebook per (arm, seed) so every run gets its own session and time budg
 
 Notes
 - The default `--max-hours 11` stops training (keeping the best weights) before Kaggle's 12-hour limit.
-- Build the UNI2-h teacher in a separate GPU notebook; add your Hugging Face token as a Kaggle secret and
-  pass it with `--hf-token` (or export `HF_TOKEN`). The cache is resumable across sessions.
+- Build the UNI2-h teacher in a separate GPU notebook. Add your Hugging Face token as a Kaggle secret named
+  `HF_TOKEN` (Add-ons -> Secrets); `build_teacher_cache.py` reads it automatically. Never hardcode the token.
+  The cache is resumable across sessions.
 - Training uses TensorFlow/Keras only; PyTorch is needed solely for the offline teacher.

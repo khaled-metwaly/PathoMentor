@@ -25,16 +25,33 @@ def tss_code(f):
     return m.group(1).upper() if m else "NA"
 
 
+def resolve_hf_token(cli_token=None):
+    # order: --hf-token, then the HF_TOKEN environment variable, then the Kaggle secret "HF_TOKEN".
+    # Never hardcode a token in this file or in a notebook that is shared or pushed.
+    if cli_token:
+        return cli_token
+    if os.environ.get("HF_TOKEN"):
+        return os.environ["HF_TOKEN"]
+    try:
+        from kaggle_secrets import UserSecretsClient
+
+        return UserSecretsClient().get_secret("HF_TOKEN")
+    except Exception:
+        return None
+
+
 def load_uni2h(device, hf_token=None):
     import timm
     import torch
     from timm.data import resolve_data_config
     from timm.data.transforms_factory import create_transform
 
-    if hf_token:
-        from huggingface_hub import login
+    if not hf_token:
+        raise SystemExit("No Hugging Face token: pass --hf-token, set HF_TOKEN, or add a Kaggle secret named HF_TOKEN "
+                         "(access to MahmoodLab/UNI2-h must be granted on huggingface.co)")
+    from huggingface_hub import login
 
-        login(token=hf_token)
+    login(token=hf_token)
     kw = dict(img_size=224, patch_size=14, depth=24, num_heads=24, init_values=1e-5, embed_dim=UNI2_DIM,
               mlp_ratio=2.66667 * 2, num_classes=0, no_embed_class=True, mlp_layer=timm.layers.SwiGLUPacked,
               act_layer=torch.nn.SiLU, reg_tokens=8, dynamic_img_size=True)
@@ -48,7 +65,7 @@ def main(argv=None):
                                 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     p.add_argument("--train-dir", required=True, help="<dir>/image + <dir>/mask (the TRAIN split from make_patches.py)")
     p.add_argument("--out-dir", required=True)
-    p.add_argument("--hf-token", default=os.environ.get("HF_TOKEN"), help="Hugging Face token (or env HF_TOKEN)")
+    p.add_argument("--hf-token", default=None, help="Hugging Face token (default: env HF_TOKEN, then Kaggle secret HF_TOKEN)")
     p.add_argument("--device", default=None, help="cuda / cpu (auto)")
     p.add_argument("--probe-tiles", type=int, default=1500)
     p.add_argument("--probe-tokens-per-tile", type=int, default=48)
@@ -78,7 +95,7 @@ def main(argv=None):
         raise SystemExit("no train tiles in " + a.train_dir)
     mask_for = lambda q: os.path.join(a.train_dir, "mask", os.path.basename(q))  # noqa: E731
     print("train tiles", len(imgs), "| device", dev)
-    um, prep, npref = load_uni2h(dev, a.hf_token)
+    um, prep, npref = load_uni2h(dev, resolve_hf_token(a.hf_token))
 
     @torch.inference_mode()
     def dense_tokens(path):
